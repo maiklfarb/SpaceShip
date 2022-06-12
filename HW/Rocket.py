@@ -4,6 +4,7 @@ class Ship:
         # Вытащим экран
         self.screen = screen
 
+        # Получение ректа экрана
         self.scrinRect = screen.get_rect()
         self.settings = settings
         self.image = pygame.image.load("../Images/ROCKET.png")
