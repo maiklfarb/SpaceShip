@@ -2,6 +2,7 @@ import sys  # библиотека для взаимодействия с опе
 import pygame
 from Settings import Settings
 from Ship import Ship
+from Bullet import Bullet
 
 class SpaceShip:
     def __init__(self):
@@ -16,6 +17,13 @@ class SpaceShip:
         # Установка названия сверху у экрана игры
         pygame.display.set_caption("Space Ship Game")
         self.ship = Ship(self.screen, self.settings)
+        # Контейнер пуль (спрайтов)
+        self.bullets = pygame.sprite.Group()
+
+    def Fire(self):
+        bullet = Bullet(self.screen, self.settings, self.ship)
+        self.bullets.add(bullet)
+
     def CheckDown(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.isRight = True
@@ -23,6 +31,8 @@ class SpaceShip:
             self.ship.isLeft = True
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
+        elif event.key == pygame.K_KP_ENTER:
+            self.Fire()
     def CheckUp(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.isRight = False
@@ -46,6 +56,10 @@ class SpaceShip:
         # Отрисовка корабля
         self.ship.blitme()
 
+        # отрисовка пуль
+        for bullet in self.bullets.sprites():
+            bullet.blitme()
+
         # Обновляем экран
         pygame.display.flip()
 
@@ -54,6 +68,8 @@ class SpaceShip:
         while True:
             self.CheckEvent()
             self.ship.Update()
+            # Вызываем метод update у группы спрайтов
+            self.bullets.update()
             self.UpdateScreen()
 
 if __name__ == '__main__':
