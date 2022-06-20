@@ -22,6 +22,7 @@ class SpaceShip:
 
     def Fire(self):
         bullet = Bullet(self.screen, self.settings, self.ship)
+
         self.bullets.add(bullet)
 
     def CheckDown(self, event):

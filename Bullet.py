@@ -12,10 +12,17 @@ class Bullet(Sprite):
         self.rect.midbottom = self.ship.rect.midtop
 
         self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
     def update(self):
         self.y -= self.settings.bullet_speed
         self.rect.y = self.y
+        if self._type == "right":
+            self.x += self.settings.bullet_speed
+            self.rect.x = self.x
+        elif self._type == "left":
+            self.x -= self.settings.bullet_speed
+            self.rect.x = self.x
 
     def blitme(self):
         pygame.draw.rect(self.screen, self.colour, self.rect)  # где рисуем, цвет, что рисуем
