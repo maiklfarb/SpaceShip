@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 
 class Bullet(Sprite):
-    def __init__(self, screen, settings, ship):
+    def __init__(self, screen, settings, ship, _type="default"):
         super().__init__()
         self.settings = settings
         self.screen = screen
@@ -10,6 +10,7 @@ class Bullet(Sprite):
         self.colour = self.settings.bullet_colour
         self.rect = pygame.Rect(0, 0, self.settings.bullet_wight, self.settings.bullet_height)  # x, y, ширина, высота
         self.rect.midbottom = self.ship.rect.midtop
+        self._type = _type
 
         self.y = float(self.rect.y)
         self.x = float(self.rect.x)
@@ -17,6 +18,13 @@ class Bullet(Sprite):
     def update(self):
         self.y -= self.settings.bullet_speed
         self.rect.y = self.y
+
+        if self._type != "default":
+            if self._type == "right":
+                self.x += self.settings.bullet_speed
+            elif self._type == "left":
+                self.x -= self.settings.bullet_speed
+            self.rect.x = self.x
 
 
     def blitme(self):

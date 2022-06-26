@@ -7,7 +7,7 @@ class Ship:
         # Инициализация корабля и задать начальную позицию
         self.scrinRect = screen.get_rect()
         self.settings = settings
-        self.image = pygame.image.load("Images/ROCKET.png")
+        self.image = pygame.image.load("Images/ship.png")
         self.rect = self.image.get_rect()
         self.rect.midbottom = self.scrinRect.midbottom
 

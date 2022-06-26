@@ -24,6 +24,32 @@ class SpaceShip:
         bullet = Bullet(self.screen, self.settings, self.ship)
         self.bullets.add(bullet)
 
+    def FireMultiple(self, n):
+        left = 5
+        right = 0
+        for i in range(0, n):
+            bullet = Bullet(self.screen, self.settings, self.ship)
+
+            if i % 2 == 0:
+                bullet.rect.x += right
+                right += 5
+            else:
+                bullet.rect.x -= left
+                left += 5
+
+            self.bullets.add(bullet)
+
+    def FireSpread(self):
+        bulletCenter = Bullet(self.screen, self.settings, self.ship)
+        bulletRight = Bullet(self.screen, self.settings, self.ship, "right")
+        bulletLeft = Bullet(self.screen, self.settings, self.ship, "left")
+
+        self.bullets.add(bulletCenter)
+        self.bullets.add(bulletRight)
+        self.bullets.add(bulletLeft)
+
+
+
     def CheckDown(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.isRight = True
@@ -33,6 +59,10 @@ class SpaceShip:
             sys.exit()
         elif event.key == pygame.K_KP_ENTER:
             self.Fire()
+        elif event.key == pygame.K_KP0:
+            self.FireMultiple(11)
+        elif event.key == pygame.K_KP1:
+            self.FireSpread()
     def CheckUp(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.isRight = False
