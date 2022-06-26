@@ -13,3 +13,6 @@ class Settings:
         self.bullet_wight = 3
         self.bullet_height = 15
         self.bullet_colour = (128,102,18)
+
+        # Кол-во разрешенных пуль на экране для megafire
+        self.MegaFireCount = 1

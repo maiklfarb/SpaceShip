@@ -24,6 +24,15 @@ class SpaceShip:
         bullet = Bullet(self.screen, self.settings, self.ship)
         self.bullets.add(bullet)
 
+    def FireMega(self):
+        if len(self.bullets) < self.settings.MegaFireCount:
+            bullet = Bullet(self.screen, self.settings, self.ship)
+            bullet.rect.width = 200
+            bullet.rect.height = 5
+            bullet.rect.midbottom = self.ship.rect.midbottom
+            bullet.bulletSpeed = 1.5
+            self.bullets.add(bullet)
+
     def FireMultiple(self, n):
         left = 5
         right = 0
@@ -63,6 +72,8 @@ class SpaceShip:
             self.FireMultiple(11)
         elif event.key == pygame.K_KP1:
             self.FireSpread()
+        elif event.key == pygame.K_SPACE:
+            self.FireMega()
     def CheckUp(self,event):
         if event.key == pygame.K_RIGHT:
             self.ship.isRight = False
@@ -100,6 +111,10 @@ class SpaceShip:
             self.ship.Update()
             # Вызываем метод update у группы спрайтов
             self.bullets.update()
+
+            for bullet in self.bullets.copy():
+                if bullet.rect.bottom <= 0:
+                    self.bullets.remove(bullet)
             self.UpdateScreen()
 
 if __name__ == '__main__':

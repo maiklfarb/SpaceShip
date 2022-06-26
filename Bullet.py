@@ -11,19 +11,20 @@ class Bullet(Sprite):
         self.rect = pygame.Rect(0, 0, self.settings.bullet_wight, self.settings.bullet_height)  # x, y, ширина, высота
         self.rect.midbottom = self.ship.rect.midtop
         self._type = _type
+        self.bulletSpeed = self.settings.bullet_speed
 
         self.y = float(self.rect.y)
         self.x = float(self.rect.x)
 
     def update(self):
-        self.y -= self.settings.bullet_speed
+        self.y -= self.bulletSpeed
         self.rect.y = self.y
 
         if self._type != "default":
             if self._type == "right":
-                self.x += self.settings.bullet_speed
+                self.x += self.bulletSpeed
             elif self._type == "left":
-                self.x -= self.settings.bullet_speed
+                self.x -= self.bulletSpeed
             self.rect.x = self.x
 
 
