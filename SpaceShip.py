@@ -3,6 +3,7 @@ import pygame
 from Settings import Settings
 from Ship import Ship
 from Bullet import Bullet
+from meteorit import Meteorit
 
 class SpaceShip:
     def __init__(self):
@@ -19,6 +20,27 @@ class SpaceShip:
         self.ship = Ship(self.screen, self.settings)
         # Контейнер пуль (спрайтов)
         self.bullets = pygame.sprite.Group()
+
+        # Контейнер врагов
+        self.enemies = pygame.sprite.Group()
+        #self.EnemiesCreate()
+        self.EnemiesFleetCreate()
+
+    def EnemiesCreate(self):
+        enemy = Meteorit(self)
+        self.enemies.add(enemy)
+
+    def EnemiesFleetCreate(self):
+        enemy = Meteorit(self)
+        alienWidth = enemy.rect.width
+        space = self.screen.get_width() - 2 * alienWidth
+        n = space // (2 * alienWidth)
+
+        for i in range(n + 1):
+            enemy = Meteorit(self)
+            enemy.x = alienWidth + 2 * alienWidth * i
+            enemy.rect.x = enemy.x
+            self.enemies.add(enemy)
 
     def Fire(self):
         bullet = Bullet(self.screen, self.settings, self.ship)
@@ -100,6 +122,9 @@ class SpaceShip:
         # отрисовка пуль
         for bullet in self.bullets.sprites():
             bullet.blitme()
+
+        # отрисовка врагов
+        self.enemies.draw(self.screen)
 
         # Обновляем экран
         pygame.display.flip()
