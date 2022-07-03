@@ -26,21 +26,37 @@ class SpaceShip:
         #self.EnemiesCreate()
         self.EnemiesFleetCreate()
 
-    def EnemiesCreate(self):
+    def EnemiesCreate(self,i, j):
         enemy = Meteorit(self)
+        alienWidth = enemy.rect.width
+        allienHeight = enemy.rect.height
+        enemy.x = alienWidth + 2 * alienWidth * i
+        enemy.rect.x = enemy.x
+        enemy.rect.y = enemy.rect.height + 2*enemy.rect.height*j
         self.enemies.add(enemy)
 
     def EnemiesFleetCreate(self):
         enemy = Meteorit(self)
+
+        # Получаем высоту и ширину врага для подсчетов
         alienWidth = enemy.rect.width
+        alienHeight = enemy.rect.height
+
+        # Допустимое значение спавна в ряд  пришельцев (в пикселях)
         space = self.screen.get_width() - 2 * alienWidth
+        # Допстимое значение спавна в высоту пришельцев (в пикселях)
+        spaceY = self.screen.get_height() - self.ship.rect.height - 2 * alienHeight
+
+        # Кол-во врагшов в ряду
         n = space // (2 * alienWidth)
 
-        for i in range(n + 1):
-            enemy = Meteorit(self)
-            enemy.x = alienWidth + 2 * alienWidth * i
-            enemy.rect.x = enemy.x
-            self.enemies.add(enemy)
+        # кол-во рядов
+        m = spaceY // (2 * alienHeight)
+
+        for j in range(m):
+            for i in range(n + 1):
+                self.EnemiesCreate(i, j)
+
 
     def Fire(self):
         bullet = Bullet(self.screen, self.settings, self.ship)
@@ -132,6 +148,11 @@ class SpaceShip:
     def start(self):
         # Бесконечно делаем
         while True:
+            self.enemies.update()
+            for en in self.enemies.sprites():
+                if en.checkEdges():
+                    self.settings.fleet_direction *= -1
+
             self.CheckEvent()
             self.ship.Update()
             # Вызываем метод update у группы спрайтов
