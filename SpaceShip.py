@@ -145,22 +145,43 @@ class SpaceShip:
         # Обновляем экран
         pygame.display.flip()
 
+    def UpdateEnemies(self):
+        if not self.enemies:
+            self.bullets.empty()
+            self.EnemiesFleetCreate()
+        self.enemies.update()
+        for en in self.enemies.sprites():
+            if en.checkEdges():
+                self.DropEnemies()
+                break
+
+        # проверка на столкновение спрайта с кеи-нибудь из группы спрайтов
+        if pygame.sprite.spritecollideany(self.ship, self.enemies):
+            print("Столкновение!")
+
+
+    def DropEnemies(self):
+        for enemy in self.enemies.sprites():
+            enemy.rect.y += self.settings.enemy_drop_speed
+        self.settings.fleet_direction *= -1
+    def UpdateBullets(self):
+        self.bullets.update()
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
+        # Проверка столкновения элементов одной группы с элементами другой группы
+        collision = pygame.sprite.groupcollide(self.bullets,self.enemies, True, True)
+
+
     def start(self):
         # Бесконечно делаем
         while True:
-            self.enemies.update()
-            for en in self.enemies.sprites():
-                if en.checkEdges():
-                    self.settings.fleet_direction *= -1
-
+            self.UpdateEnemies()
             self.CheckEvent()
             self.ship.Update()
             # Вызываем метод update у группы спрайтов
-            self.bullets.update()
-
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
+            self.UpdateBullets()
             self.UpdateScreen()
 
 if __name__ == '__main__':

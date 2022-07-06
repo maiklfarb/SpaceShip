@@ -23,3 +23,4 @@ class Meteorit(Sprite):
         screenReact = self.screen.get_rect()
         if self.rect.right >= screenReact.right or self.rect.left <= 0:
             return True
+

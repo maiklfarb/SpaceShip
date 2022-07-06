@@ -19,4 +19,5 @@ class Settings:
 
         # параметры врагов
         self.enemy_speed = 2.0
+        self.enemy_drop_speed = 10
         self.fleet_direction = 1 # 1 - флот вправо, -1 - флот влево
